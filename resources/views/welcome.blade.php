@@ -88,7 +88,9 @@
                 <!-- Mais cards de viagem... -->
             </div>
 
-            <a href="/viagens" class="w-full flex items-center justify-center p-4 bg-blue-600 text-white my-10 rounded hover:opacity-80 active:scale-95 ease-in-out duration-300 transition-shadow ">Ver todas viagens <i class="fa fa-arrow-right ml-6 text-opacity-70"></i></a>
+            <div class="md:px-20" >
+                <a href="/viagens" class="w-full flex items-center justify-center p-4 bg-blue-600 text-white my-10 rounded hover:opacity-80 active:scale-95 ease-in-out duration-300 transition-shadow ">Ver todas viagens <i class="fa fa-arrow-right ml-6 text-opacity-70"></i></a>
+            </div>
         </div>
     </section>
 

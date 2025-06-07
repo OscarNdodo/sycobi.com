@@ -12,6 +12,7 @@ Route::view('viagens/12/reservar/confirmada', 'bilhete');
 Route::view('viagens/passageiro/12', 'passageiro');
 
 
+Route::view('login', 'login');
 Route::prefix('dashboard')->group(function() {
     Route::view('/', 'admin.home');
     Route::view('/rotas', 'admin.rotas');
