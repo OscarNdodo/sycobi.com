@@ -10,7 +10,7 @@
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .hero-bg {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1506929562872-bb421503ef21?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('./assets/images/img.jpeg');
             background-size: cover;
             background-position: center;
         }
@@ -78,5 +78,97 @@
             </div>
         </div>
     </footer>
+
+
+
+
+
+
+    @error('success')
+    <div role="alert" class="alert rounded-md border border-gray-300 bg-white p-4 shadow fixed top-10 right-10 z-50">
+        <div class="flex items-start gap-4">
+          <i class="fas fa-check font-bold text-green-600 text-xl border-2 border-green-600 rounded-full px-1.5"></i>
+      
+          <div class="flex-1">
+            <strong class="font-medium text-gray-900"> Alerta de erro! </strong>
+      
+            <p class="mt-0.5 text-sm text-gray-700">{{ $message }}</p>
+          </div>
+      
+          <button
+            class="-m-3 rounded-full p-1.5 text-gray-500 transition-colors hover:bg-gray-50 hover:text-gray-700"
+            type="button"
+            aria-label="Dismiss alert"
+          >
+            <span class="sr-only">Dismiss popup</span>
+      
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-5"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+    @enderror
+
+
+    @error('error')
+    <div role="alert" class="alert rounded-md border border-gray-300 bg-white p-4 shadow fixed top-10 right-10 z-50">
+        <div class="flex items-start gap-4">
+          <i class="fas fa-close font-bold text-red-600 text-xl border-2 border-red-600 rounded-full px-1.5"></i>
+      
+          <div class="flex-1">
+            <strong class="font-medium text-gray-900"> Alerta de erro! </strong>
+      
+            <p class="mt-0.5 text-sm text-gray-700">{{ $message }}</p>
+          </div>
+      
+          <button
+            class="-m-3 rounded-full p-1.5 text-gray-500 transition-colors hover:bg-gray-50 hover:text-gray-700"
+            type="button"
+            aria-label="Dismiss alert"
+          >
+            <span class="sr-only">Dismiss popup</span>
+      
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-5"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+    @enderror
+
+
+    <script>
+        const alerts = [...document.querySelectorAll(".alert")];
+        alerts.map((element) => {
+            setTimeout(() => {
+                element.style.display = "none";
+            }, 5000);
+        })
+        //Loading feature
+        const buttons = [...document.querySelectorAll("button[type=submit]")];
+            buttons.map((element) => {
+                element.addEventListener("click", (event) => {
+                    element.innerText = "Carregando...";
+                    element.disabled = true;
+                })
+            })
+    </script>
 </body>
 </html>

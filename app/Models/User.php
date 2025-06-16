@@ -21,7 +21,15 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'phone',
+        'status'
     ];
+
+    public function rotas() {
+        return $this->hasMany(Rota::class);
+    }
+
 
     /**
      * The attributes that should be hidden for serialization.

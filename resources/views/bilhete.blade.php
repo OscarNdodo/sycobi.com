@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,34 +14,26 @@
             .no-print {
                 display: none !important;
             }
+
             body {
                 background: white;
                 font-size: 12pt;
             }
+
             .ticket {
                 box-shadow: none;
                 border: 1px solid #ddd;
                 page-break-after: always;
             }
         }
+
         .ticket {
             border-left: 5px solid #3B82F6;
         }
     </style>
 </head>
+
 <body class="font-sans bg-gray-50">
-    <!-- Cabeçalho (não aparece na impressão) -->
-    <header class="bg-white shadow-sm sticky top-0 z-50 no-print">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="/" class="flex items-center">
-                <i class="fas fa-bus text-blue-600 text-2xl"></i>
-                <span class="ml-2 text-xl font-bold text-gray-800">ViajaFácil</span>
-            </a>
-            <button onclick="window.print()" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
-                <i class="fas fa-print mr-2"></i>Imprimir Bilhete
-            </button>
-        </div>
-    </header>
 
     <!-- Conteúdo Principal -->
     <main class="container mx-auto px-4 py-8">
@@ -50,8 +43,13 @@
                 <i class="fas fa-check-circle"></i>
             </div>
             <h1 class="text-2xl font-bold text-green-800 mb-2">Reserva Confirmada!</h1>
-            <p class="text-gray-700 mb-4">O seu bilhete foi reservado com sucesso. Um e-mail de confirmação foi enviado para <span class="font-semibold">joao@example.com</span>.</p>
-            <p class="text-gray-600">Código da reserva: <span class="font-mono bg-gray-100 px-2 py-1 rounded">VF-7X9A2B4C</span></p>
+            <p class="text-gray-700 mb-4">O seu bilhete foi reservado com sucesso. @if ($bilhete->email)
+                    <br>Um e-mail de confirmação foi enviado para <span
+                        class="font-semibold">{{ $bilhete->email }}</span>.
+                @endif
+            </p>
+            <p class="text-gray-600">Código da reserva: <span
+                    class="font-mono bg-blue-300 font-bold px-2 py-1 rounded">{{ $bilhete->codigo }}</span></p>
         </div>
 
         <!-- Bilhete Digital -->
@@ -60,134 +58,132 @@
             <div class="bg-blue-600 text-white p-4 flex justify-between items-center">
                 <div class="flex items-center">
                     <i class="fas fa-bus text-2xl mr-3"></i>
-                    <span class="text-xl font-bold">ViajaFácil</span>
+                    <span class="text-xl font-bold">SYCOBI</span>
                 </div>
                 <div class="text-right">
                     <div class="text-xs">Bilhete Digital</div>
-                    <div class="font-mono text-sm">VF-7X9A2B4C</div>
+                    <div class="font-mono text-sm">{{ $bilhete->codigo }}</div>
                 </div>
             </div>
-            
+
             <!-- Corpo do Bilhete -->
             <div class="p-6">
                 <div class="flex flex-col md:flex-row justify-between mb-6">
                     <div>
                         <div class="text-xs text-gray-500">ORIGEM</div>
-                        <div class="text-2xl font-bold">Lisboa</div>
-                        <div class="text-gray-600">
-                            <i class="far fa-calendar-alt mr-1"></i>
-                            15 Jun 2023
-                        </div>
+                        <div class="text-2xl font-bold">{{ $rota->origem }}</div>
+                       
                         <div class="text-gray-600">
                             <i class="far fa-clock mr-1"></i>
-                            14:00
+                            {{ $rota->partida }}
                         </div>
                         <div class="text-gray-600 mt-2">
                             <i class="fas fa-map-marker-alt mr-1"></i>
-                            Campo Grande
+                            Parque de {{ $rota->origem }}
                         </div>
                     </div>
-                    
+
                     <div class="my-4 md:my-0 flex items-center justify-center">
                         <i class="fas fa-arrow-right text-gray-400 text-2xl mx-4"></i>
                     </div>
-                    
+
                     <div class="text-right">
                         <div class="text-xs text-gray-500">DESTINO</div>
-                        <div class="text-2xl font-bold">Porto</div>
-                        <div class="text-gray-600">
-                            <i class="far fa-calendar-alt mr-1"></i>
-                            15 Jun 2023
-                        </div>
+                        <div class="text-2xl font-bold">{{ $rota->destino }}</div>
+                       
                         <div class="text-gray-600">
                             <i class="far fa-clock mr-1"></i>
-                            17:30
+                            {{ $rota->chegada }}
                         </div>
                         <div class="text-gray-600 mt-2">
                             <i class="fas fa-map-marker-alt mr-1"></i>
-                            Campanhã
+                            Parque de {{ $rota->destino }}
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="border-t border-b border-gray-200 py-4 my-4">
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <div class="text-xs text-gray-500">PASSAGEIRO</div>
-                            <div class="font-semibold">João da Silva</div>
+                            <div class="font-semibold">{{ $bilhete->nome }}</div>
                         </div>
                         <div>
                             <div class="text-xs text-gray-500">DOCUMENTO</div>
-                            <div class="font-semibold">CC 12345678</div>
+                            <div class="font-semibold">
+                                @if ($bilhete->tipo_doc)
+                                    @switch($bilhete->tipo_doc)
+                                        @case('bi')
+                                            Bilhete de identidade
+                                        @break
+
+                                        @case('c')
+                                            Cartao de recenceamento
+                                        @break
+
+                                        @case('cd')
+                                            Carta de conducao
+                                        @break
+
+                                        @case('pp')
+                                            Passaporte
+                                        @break
+
+                                        @default
+                                            Desconhecido
+                                    @endswitch
+                                @else
+                                    Nenhum docuemento
+                                @endif
+                            </div>
                         </div>
                         <div>
                             <div class="text-xs text-gray-500">ASSENTO</div>
-                            <div class="font-semibold">B3</div>
+                            <div class="font-semibold">{{ $bilhete->acento > 9 ? $bilhete->acento : "0".$bilhete->acento }}</div>
                         </div>
                         <div>
                             <div class="text-xs text-gray-500">VALOR</div>
-                            <div class="font-semibold">€25,00</div>
+                            <div class="font-semibold">{{ number_format($rota->preco, 2, '.') }} MT</div>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Código QR -->
                 <div class="flex flex-col items-center mt-6">
                     <div class="bg-gray-100 p-2 rounded">
                         <!-- Placeholder para QR Code - substitua por um gerador real -->
-                        <div class="w-32 h-32 bg-white border border-gray-300 flex items-center justify-center text-gray-400">
+                        <div
+                            class="w-32 h-32 bg-white border border-gray-300 flex items-center justify-center text-gray-400">
                             <i class="fas fa-qrcode text-4xl"></i>
                         </div>
                     </div>
                     <div class="text-xs text-gray-500 mt-2">Código de embarque</div>
                 </div>
             </div>
-            
+
             <!-- Rodapé do Bilhete -->
             <div class="bg-gray-50 p-4 text-center text-sm text-gray-600">
                 <p>Apresente este bilhete no embarque. Chegue com 30min de antecedência.</p>
-                <p class="mt-1">Validado em: 10/06/2023 15:42</p>
+                <p class="mt-1">Válido até: {{ now()->days()->tomorrow()->format("d/m/Y") }} às {{ $rota->partida }}</p>
             </div>
         </div>
 
         <!-- Ações -->
         <div class="flex flex-col sm:flex-row justify-center gap-4 mt-8 no-print">
-            <a href="/viagens" class="px-6 py-3 bg-white border border-blue-600 text-blue-600 rounded-md hover:bg-blue-50 transition text-center">
+            <a href="{{ route('viagens') }}"
+                class="px-6 py-3 bg-white border border-blue-600 text-blue-600 rounded-md hover:bg-blue-50 transition text-center">
                 <i class="fas fa-search mr-2"></i>Ver mais viagens
             </a>
-            <button onclick="window.print()" class="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition flex items-center justify-center">
+            <button onclick="window.print()"
+                class="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition flex items-center justify-center">
                 <i class="fas fa-print mr-2"></i>Imprimir Bilhete
             </button>
-            <a href="#" class="px-6 py-3 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition text-center">
+            <a href="#"
+                class="px-6 py-3 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition text-center">
                 <i class="fas fa-envelope mr-2"></i>Reenviar por e-mail
             </a>
         </div>
     </main>
-
-    <!-- Rodapé (não aparece na impressão) -->
-    <footer class="bg-gray-800 text-white py-8 mt-12 no-print">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-4 md:mb-0">
-                    <div class="flex items-center">
-                        <i class="fas fa-bus text-blue-400 text-2xl"></i>
-                        <span class="ml-2 text-xl font-bold">ViajaFácil</span>
-                    </div>
-                    <p class="mt-2 text-gray-400">Sistema de reserva de bilhetes</p>
-                </div>
-                
-                <div class="flex space-x-6">
-                    <a href="#" class="text-gray-400 hover:text-white">Termos</a>
-                    <a href="#" class="text-gray-400 hover:text-white">Privacidade</a>
-                    <a href="#" class="text-gray-400 hover:text-white">FAQ</a>
-                </div>
-            </div>
-            
-            <div class="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
-                <p>© 2023 ViajaFácil. Todos os direitos reservados.</p>
-            </div>
-        </div>
-    </footer>
 
     <script>
         // Função para gerar QR Code (exemplo simplificado)
@@ -196,9 +192,10 @@
             // Implementação real exigiria uma biblioteca QR Code
             console.log("Gerando QR Code...");
         }
-        
+
         // Gerar QR Code quando a página carregar
         window.onload = generateQRCode;
     </script>
 </body>
+
 </html>

@@ -27,14 +27,14 @@
                         <i class="fas fa-bell mr-2"></i>
                         Notificações
                     </a>
-                    <a href="#" class="block p-4 hover:bg-gray-50 text-gray-600 settings-tab" data-tab="payments">
+                    {{-- <a href="#" class="block p-4 hover:bg-gray-50 text-gray-600 settings-tab" data-tab="payments">
                         <i class="fas fa-credit-card mr-2"></i>
                         Pagamentos
                     </a>
                     <a href="#" class="block p-4 hover:bg-gray-50 text-gray-600 settings-tab" data-tab="language">
                         <i class="fas fa-globe mr-2"></i>
                         Idioma e Região
-                    </a>
+                    </a> --}}
                 </nav>
             </div>
         </div>
@@ -50,27 +50,28 @@
                     </h2>
                 </div>
                 
-                <form class="p-6">
+                <form class="p-6" method="POST" action="{{ route('admin.profile') }}">
+                    @csrf
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Nome</label>
-                            <input type="text" value="João Silva" class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <input type="text" name="name" required value="{{ auth()->user()->name }}" class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">E-mail</label>
-                            <input type="email" value="joao@example.com" class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <input type="email" value="{{ auth()->user()->email }}" name="email" required class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Telefone</label>
-                            <input type="tel" value="+351 912 345 678" class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <input type="tel" name="phone" value="{{ auth()->user()->phone ?? "" }}" placeholder="258 8# ## ## ###" class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Data de Nascimento</label>
-                            <input type="date" value="1985-06-15" class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Data de criação de conta</label>
+                            <input type="date" value="{{ auth()->user()->created_at->format("Y-m-d") }}" disabled class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 cursor-not-allowed bg-red-100">
                         </div>
                     </div>
                     
-                    <div class="mt-6">
+                    {{-- <div class="mt-6">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Foto de Perfil</label>
                         <div class="flex items-center">
                             <img src="https://via.placeholder.com/80" alt="Foto do perfil" class="w-16 h-16 rounded-full mr-4">
@@ -83,12 +84,12 @@
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     
                     <div class="mt-8 pt-5 border-t border-gray-200 flex justify-end">
-                        <button type="button" class="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <a href="{{ route('admin.home') }}" class="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                             Cancelar
-                        </button>
+                        </a>
                         <button type="submit" class="ml-3 px-4 py-2 bg-blue-600 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                             Salvar Alterações
                         </button>
@@ -105,34 +106,28 @@
                     </h2>
                 </div>
                 
-                <form class="p-6">
+                <form class="p-6" method="POST" action="{{ route('admin.password') }}">
+                    @csrf
                     <div class="space-y-6">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Senha Atual</label>
-                            <input type="password" class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <input type="password" name="current" required placeholder="**************" class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Nova Senha</label>
-                            <input type="password" class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <input type="password" name="password" required placeholder="**************" class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Confirmar Nova Senha</label>
-                            <input type="password" class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <input type="password" name="confirm" required placeholder="**************" class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500">
                         </div>
                         
-                        <div class="mt-6">
-                            <h3 class="text-md font-medium text-gray-900">Autenticação de Dois Fatores</h3>
-                            <div class="mt-2 flex items-center">
-                                <input type="checkbox" id="twoFactor" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                                <label for="twoFactor" class="ml-2 block text-sm text-gray-700">Ativar autenticação de dois fatores</label>
-                            </div>
-                        </div>
                     </div>
                     
                     <div class="mt-8 pt-5 border-t border-gray-200 flex justify-end">
-                        <button type="button" class="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <a href="{{ route('admin.home') }}" class="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                             Cancelar
-                        </button>
+                        </a>
                         <button type="submit" class="ml-3 px-4 py-2 bg-blue-600 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                             Atualizar Segurança
                         </button>
@@ -175,34 +170,14 @@
                             </div>
                         </div>
                         
-                        <div class="pt-4">
-                            <h3 class="text-md font-medium text-gray-900">Notificações no Sistema</h3>
-                            <div class="mt-4 space-y-4">
-                                <div class="flex items-start">
-                                    <div class="flex items-center h-5">
-                                        <input id="system-messages" name="system-messages" type="checkbox" checked class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded">
-                                    </div>
-                                    <div class="ml-3 text-sm">
-                                        <label for="system-messages" class="font-medium text-gray-700">Mensagens do sistema</label>
-                                    </div>
-                                </div>
-                                <div class="flex items-start">
-                                    <div class="flex items-center h-5">
-                                        <input id="system-updates" name="system-updates" type="checkbox" checked class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded">
-                                    </div>
-                                    <div class="ml-3 text-sm">
-                                        <label for="system-updates" class="font-medium text-gray-700">Atualizações importantes</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                     
                     <div class="mt-8 pt-5 border-t border-gray-200 flex justify-end">
-                        <button type="button" class="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <a href="{{ route('admin.home') }}" class="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                             Cancelar
-                        </button>
-                        <button type="submit" class="ml-3 px-4 py-2 bg-blue-600 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        </a>
+                        <button type="button" id="notify" class="ml-3 px-4 py-2 bg-blue-600 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                             Salvar Preferências
                         </button>
                     </div>
@@ -210,7 +185,7 @@
             </div>
 
             <!-- Seção de Pagamentos -->
-            <div class="settings-content bg-white rounded-lg shadow overflow-hidden hidden" id="payments-content">
+            {{-- <div class="settings-content bg-white rounded-lg shadow overflow-hidden hidden" id="payments-content">
                 <div class="p-6 border-b">
                     <h2 class="text-lg font-semibold flex items-center">
                         <i class="fas fa-credit-card mr-2 text-blue-600"></i>
@@ -270,10 +245,10 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <!-- Seção de Idioma e Região -->
-            <div class="settings-content bg-white rounded-lg shadow overflow-hidden hidden" id="language-content">
+            {{-- <div class="settings-content bg-white rounded-lg shadow overflow-hidden hidden" id="language-content">
                 <div class="p-6 border-b">
                     <h2 class="text-lg font-semibold flex items-center">
                         <i class="fas fa-globe mr-2 text-blue-600"></i>
@@ -331,7 +306,7 @@
                         </button>
                     </div>
                 </form>
-            </div>
+            </div> --}}
         </div>
     </div>
 </main>
@@ -372,6 +347,10 @@
         if (tabs.length > 0) {
             tabs[0].click();
         }
+    });
+    document.getElementById("notify").addEventListener("click", (event) => {
+        event.preventDefault();
+        alert("Funcionalidade indisponivel no momento.")
     });
 </script>
 @endsection
